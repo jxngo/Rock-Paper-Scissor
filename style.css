@@ -1,0 +1,11 @@
+div {
+    justify-content:center;
+    display: flex;
+    margin-top: 250px;
+}
+.btn {
+    height: 30px;
+    border-radius: 20px;
+    width: 100px;
+    margin-left: 20px;
+}
