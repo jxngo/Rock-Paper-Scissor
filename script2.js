@@ -1,19 +1,19 @@
+const container = document.querySelector('#container');
 let player, 
     cpu, 
     computerSelection,
     playerScore = 0,
     cpuScore = 0;
 
+
 document.getElementById("rock").addEventListener('click',function(){
     player = moveConversion("rock");
     computerSelection = computerPlay();
     cpu = moveConversion(computerSelection);
-    console.log(playRound(player,cpu));
+    playRound(player,cpu);
     if (playerScore == 5 || cpuScore == 5){
-        if (playerScore == 5)
-            console.log("You have won! You: " + playerScore + " CPU: " + cpuScore);
-        else if (cpuScore == 5)
-        console.log("You have lost. You: " + playerScore + " CPU: " + cpuScore);
+        displayResults();
+        
         playerScore = 0;
         cpuScore = 0;
     }
@@ -22,12 +22,10 @@ document.getElementById("paper").addEventListener('click',function(){
     player = moveConversion("paper");
     computerSelection = computerPlay();
     cpu = moveConversion(computerSelection);
-    console.log(playRound(player,cpu));
+    playRound(player,cpu);
     if (playerScore == 5 || cpuScore == 5){
-        if (playerScore == 5)
-            console.log("You have won! You: " + playerScore + " CPU: " + cpuScore);
-        else if (cpuScore == 5)
-        console.log("You have lost. You: " + playerScore + " CPU: " + cpuScore);
+        displayResults();
+        
         playerScore = 0;
         cpuScore = 0;
     }
@@ -36,65 +34,79 @@ document.getElementById("scissor").addEventListener('click',function(){
     player = moveConversion("scissor");
     computerSelection = computerPlay();
     cpu = moveConversion(computerSelection);
-    console.log(playRound(player,cpu));
+    playRound(player,cpu);
     if (playerScore == 5 || cpuScore == 5){
-        if (playerScore == 5)
-            console.log("You have won! You: " + playerScore + " CPU: " + cpuScore);
-        else if (cpuScore == 5)
-        console.log("You have lost. You: " + playerScore + " CPU: " + cpuScore);
+        displayResults();
+        
         playerScore = 0;
         cpuScore = 0;
     }
 });
 
-
-
-
-function computerPlay(){
-    let cpu = Math.floor(Math.random() * 3);
-    if (cpu == 0) 
-        return "rock";
-    if (cpu == 1) 
-        return "scissor";
-    if (cpu == 2) 
-        return "paper";
+function displayResults(){
+    const result = document.createElement('p');
+    if (playerScore == 5)
+            result.textContent="You have won! You: " + playerScore + " CPU: " + cpuScore;
+    else if (cpuScore == 5)
+            result.textContent ="You have lost. You: " + playerScore + " CPU: " + cpuScore;
+    container.appendChild(result);
+    const resetButton = document.createElement('button');
+    resetButton.textContent="Reset";
+    resetButton.style.padding = '10px';
+    resetButton.style.fontSize = '14px';
+    resetButton.style.marginLeft = '800px';
+    container.appendChild(resetButton);
+    resetButton.addEventListener("click",reset_score);
 }
+
+function displayScore(message){
+    const score = document.createElement('p');
+    score.textContent=message;
+    container.appendChild(score);  
+}
+function reset_score(){
+    window.location.reload();
+}
+
 function playRound(playerSelection,computerSelection){
-   
+    
+    let message;
    if (playerSelection == computerSelection)
-        return "Game is tied";
+        message= "Game is tied";
     if (playerSelection == 1){
         if (computerSelection == 2){
             cpuScore++;
-            return "You've lost. Paper beats rock.";
+            message= "You've lost. Paper beats rock.";
         }
         if (computerSelection == 3){
             playerScore++;
-            return "You've won! Rock beats scissors";
+            message= "You've won! Rock beats scissors.";
         }
     }
     if (playerSelection == 2) {
         if (computerSelection == 3){
             cpuScore++;
-            return "You've lost. Scissor beat paper. ";
+            message= "You've lost. Scissor beat paper.";
         }
         if (computerSelection == 1){
             playerScore++;
-            return "You've won! Paper beats rock.";
+            message= "You've won! Paper beats rock.";
         }
     }
     if (playerSelection == 3){
         if (computerSelection == 1){
             cpuScore++;
-            return "You've lost. Rock beats scissors.";
+            message= "You've lost. Rock beats scissors.";
         }
         if (computerSelection == 2){
             playerScore++;
-            return "You've won!. Scissors beat paper.";
+            message = "You've won! Scissors beat paper.";
         }
     }
     else if (playerSelection == 10)
-            return "Invalid response";
+            message = "Invalid response.";
+    
+    displayScore(message);
     
 }
 function moveConversion(move){
@@ -107,4 +119,12 @@ function moveConversion(move){
     else 
         return 10;
 }
-
+function computerPlay(){
+    let cpu = Math.floor(Math.random() * 3);
+    if (cpu == 0) 
+        return "rock";
+    if (cpu == 1) 
+        return "scissor";
+    if (cpu == 2) 
+        return "paper";
+}
